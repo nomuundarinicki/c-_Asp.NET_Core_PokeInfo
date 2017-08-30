@@ -15,19 +15,23 @@ namespace PokeInfo.Controllers
         {
             return View();
         }
+
+        // GET: /pokemon/pokeid
         [HttpGet]
         [Route("pokemon/{pokeid}")]
         public IActionResult QueryPoke(int pokeid)
-         {
-        var PokeInfo = new Dictionary<string, object>();
-        WebRequest.GetPokemonDataAsync(pokeid, ApiResponse =>
-            {
-                PokeInfo = ApiResponse;
-            }
-        ).Wait();
-        // Other code
-        }
-
+        {
+            var CurrPokemon = new Pokemon();
+            
+            WebRequest.GetPokemonDataAsync(pokeid, ApiResponse =>
+                {
+                    CurrPokemon = ApiResponse;
+                    Console.WriteLine("========================================================CurrPokemon: "+CurrPokemon);
+                }
+            ).Wait();
+            Console.WriteLine("Waiting ====== Waiting =========== Waiting ========= Waiting ==========");
+            ViewBag.Pokemon = CurrPokemon;
+            return View("Index");
+        }    
     }
-
 }
